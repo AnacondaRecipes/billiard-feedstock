@@ -1,30 +1,51 @@
-{% set version = "3.6.4.0" %}
+{% set name = "billiard" %}
+{% set version = "4.2.1" %}
 
 package:
-  name: billiard
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/b/billiard/billiard-{{ version }}.tar.gz
-  sha256: 299de5a8da28a783d51b197d496bef4f1595dd023a93a4f59dde1886ae905547
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 12b641b0c539073fc8d3f5b8b7be998956665c4233c7c1fcd66a7e677c4fb36f
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  skip: true # [py<38]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   build:
     - {{ compiler("c") }}
+    - {{ stdlib("c") }}
   host:
     - python
+    - setuptools
+    - wheel
     - pip
   run:
     - python
 
 test:
+  source_files:
+    - t
   imports:
     - billiard
+    - billiard.compat
+    - billiard.connection
     - billiard.dummy
+    - billiard.pool
+    - billiard.process
+    - billiard.queues
+  requires:
+    - pip
+    - pytest >=6.2
+    - psutil >=5.9.0
+  commands:
+    - pip check
+    - pytest -vv t/unit
+    # Integration tests are out-dated (last changes adaa178 2 years ago) and broken
+    # - pytest -vv t/integration
 
 about:
   home: https://github.com/celery/billiard
@@ -32,7 +53,12 @@ about:
   license_family: BSD
   license_file: LICENSE.txt
   summary: Python multiprocessing fork with improvements and bugfixes
+  description: |
+    billiard is a fork of the Python 2.7 multiprocessing package.
+    This standalone variant draws its fixes/improvements from python-trunk
+    and provides additional bug fixes and improvements.
   dev_url: https://github.com/celery/billiard
+  doc_url: https://billiard.readthedocs.io
 
 extra:
   recipe-maintainers:
