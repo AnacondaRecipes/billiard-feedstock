@@ -16,8 +16,6 @@ build:
 
 requirements:
   build:
-    - python                                 # [build_platform != target_platform]
-    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - {{ compiler("c") }}
     - {{ stdlib("c") }}
   host:
@@ -60,7 +58,7 @@ about:
     This standalone variant draws its fixes/improvements from python-trunk
     and provides additional bug fixes and improvements.
   dev_url: https://github.com/celery/billiard
-  doc_ur: https://billiard.readthedocs.io
+  doc_url: https://billiard.readthedocs.io
 
 extra:
   recipe-maintainers:
