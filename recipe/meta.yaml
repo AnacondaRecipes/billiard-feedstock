@@ -1,5 +1,5 @@
 {% set name = "billiard" %}
-{% set version = "4.2.1" %}
+{% set version = "4.2.4" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 12b641b0c539073fc8d3f5b8b7be998956665c4233c7c1fcd66a7e677c4fb36f
+  sha256: 55f542c371209e03cd5862299b74e52e4fbcba8250ba611ad94276b369b6a85f
 
 build:
   number: 0
